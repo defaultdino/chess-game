@@ -4,6 +4,10 @@
 
 This is a simple chess game made in C++ using the SFML graphics library. It is a two player game, where each player takes turns moving their pieces. The game ends when one player's king is captured.
 
+## Building
+
+To build the project and get an executable game file run `cmake --build build`
+
 ## Ideas for Future Development
 
 - Add a AI to play against
