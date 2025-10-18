@@ -3,17 +3,10 @@
 //
 
 #include "King.h"
-#include <iostream>
 #include "../../Board/Board.h"
 #include "../Rook/Rook.h"
 
-King::King(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type) {
-    if (color == PlayerColor::Black) {
-        LoadTexture("Assets/Sprites/King-black.png");
-    } else {
-        LoadTexture("Assets/Sprites/King-white.png");
-    }
-}
+King::King(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type){};
 
 std::vector<Move> King::AvailableMoves(const Board& board, const std::optional<Move>& lastMove) const {
     std::vector<Move> moves;

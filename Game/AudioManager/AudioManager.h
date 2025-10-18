@@ -31,12 +31,12 @@ private:
     sf::SoundBuffer checkBuffer{};
     sf::SoundBuffer promotionBuffer{};
 
-    sf::Sound moveSound{};
-    sf::Sound captureSound{};
-    sf::Sound castleSound{};
-    sf::Sound checkmateSound{};
-    sf::Sound checkSound{};
-    sf::Sound promotionSound{};
+    sf::Sound moveSound{moveBuffer};
+    sf::Sound captureSound{captureBuffer};
+    sf::Sound castleSound{castleBuffer};
+    sf::Sound checkmateSound{checkmateBuffer};
+    sf::Sound checkSound{checkBuffer};
+    sf::Sound promotionSound{promotionBuffer};
 };
 
 

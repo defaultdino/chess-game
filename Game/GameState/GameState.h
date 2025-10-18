@@ -9,6 +9,7 @@
 #include "../Player/Player.h"
 #include "../Piece/Pawn/Pawn.h"
 #include "../AudioManager/AudioManager.h"
+#include "../ResourceManager/ResourceManager.h"
 
 using Position = sf::Vector2i;
 
@@ -28,7 +29,7 @@ public:
 
     void ExecuteMove(const Move& move);
 
-    void PromotePawn(const Position& position, PieceType type);
+    void PromotePawn(const Position& position, PieceType promotedType);
 
     void ChangePlayerTurn();
 
@@ -85,7 +86,7 @@ private:
 
     std::shared_ptr<Player> whitePlayer;
 
-    PlayerColor playerTurn = PlayerColor::White;
+    PlayerColor playerColor = PlayerColor::White;
 };
 
 #endif //CHESSGAME_GAMESTATE_H

@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "../Board/Board.h"
+#include <algorithm>
 
 void Player::SelectPiece(Position position, const Board& board, const std::optional<Move>& lastMove)  {
     if (Board::IsWithinBounds(position)) {

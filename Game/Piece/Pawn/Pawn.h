@@ -40,4 +40,3 @@ private:
 };
 
 #endif //CHESSGAME_PAWN_H
-

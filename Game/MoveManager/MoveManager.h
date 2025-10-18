@@ -3,6 +3,7 @@
 //
 
 #ifndef CHESSGAME_MOVEMANAGER_H
+#include <optional>
 #define CHESSGAME_MOVEMANAGER_H
 
 #include <vector>

@@ -3,16 +3,9 @@
 //
 
 #include "Pawn.h"
-#include <iostream>
 #include "../../Board/Board.h"
 
-Pawn::Pawn(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type) {
-    if (color == PlayerColor::Black) {
-        LoadTexture("Assets/Sprites/Pawn-black.png");
-    } else {
-        LoadTexture("Assets/Sprites/Pawn-white.png");
-    }
-}
+Pawn::Pawn(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type){};
 
 std::vector<Move> Pawn::AvailableMoves(const Board& board, const std::optional<Move>& lastMove) const {
 

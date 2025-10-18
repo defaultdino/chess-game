@@ -7,6 +7,7 @@
 #include "Board/Board.h"
 #include "GameState/GameState.h"
 #include "MoveManager/MoveManager.h"
+#include "WindowManager/WindowManager.h"
 #include <memory>
 #include <utility>
 #pragma once
@@ -16,10 +17,9 @@
 
 class Game {
 public:
-    Game() : window(sf::VideoMode(800, 800), "Chess Game", sf::Style::Default) {
+    Game() {
         gameState.InitializeBoard();
     }
-
     void Run();
 
 private:
@@ -28,9 +28,9 @@ private:
 
     MoveManager moveManager;
 
-    sf::RenderWindow window;
+    WindowManager windowManager;
 
-    void HandleEvent(sf::Event& event);
+    void HandleEvent(const std::optional<sf::Event>);
 
     void HandleLeftMouseClick(sf::Vector2i position);
 

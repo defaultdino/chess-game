@@ -1,0 +1,3 @@
+/home/adve/coding/Chess-Game/build/CMakeFiles/chessgame.dir
+/home/adve/coding/Chess-Game/build/CMakeFiles/edit_cache.dir
+/home/adve/coding/Chess-Game/build/CMakeFiles/rebuild_cache.dir

@@ -5,12 +5,12 @@
 #include "AudioManager.h"
 
 AudioManager::AudioManager() {
-    moveBuffer.loadFromFile("Assets/Audio/move-self.mp3");
-    captureBuffer.loadFromFile("Assets/Audio/capture.mp3");
-    castleBuffer.loadFromFile("Assets/Audio/castle.mp3");
-    checkmateBuffer.loadFromFile("Assets/Audio/game-end.mp3");
-    checkBuffer.loadFromFile("Assets/Audio/move-check.mp3");
-    promotionBuffer.loadFromFile("Assets/Audio/promote.mp3");
+    auto loadedMoveBuffer = moveBuffer.loadFromFile("Assets/Audio/move-self.mp3");
+    auto loadedCaptureBuffer = captureBuffer.loadFromFile("Assets/Audio/capture.mp3");
+    auto loadedCastleBuffer = castleBuffer.loadFromFile("Assets/Audio/castle.mp3");
+    auto loadedCheckmateBuffer = checkmateBuffer.loadFromFile("Assets/Audio/game-end.mp3");
+    auto loadedCheckBuffer = checkBuffer.loadFromFile("Assets/Audio/move-check.mp3");
+    auto loadedPromotionBuffer = promotionBuffer.loadFromFile("Assets/Audio/promote.mp3");
 
     moveSound.setBuffer(moveBuffer);
     captureSound.setBuffer(captureBuffer);

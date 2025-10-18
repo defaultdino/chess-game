@@ -10,6 +10,7 @@
 #include <utility>
 #include "../Piece/Piece.h"
 #include "../Player/Move.h"
+#include "../ResourceManager/ResourceManager.h"
 
 #ifndef CHESSGAME_BOARD_H
 #define CHESSGAME_BOARD_H

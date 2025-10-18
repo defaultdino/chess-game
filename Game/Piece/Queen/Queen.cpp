@@ -3,16 +3,9 @@
 //
 
 #include "Queen.h"
-#include <iostream>
 #include "../../Board/Board.h"
 
-Queen::Queen(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type) {
-    if (color == PlayerColor::Black) {
-        LoadTexture("Assets/Sprites/Queen-black.png");
-    } else {
-        LoadTexture("Assets/Sprites/Queen-white.png");
-    }
-}
+Queen::Queen(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type) {};
 
 std::vector<Move> Queen::AvailableMoves(const Board& board, const std::optional<Move>& lastMove) const {
     std::vector<Move> moves;

@@ -3,16 +3,9 @@
 //
 
 #include "Knight.h"
-#include <iostream>
 #include "../../Board/Board.h"
 
-Knight::Knight(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type) {
-    if (color == PlayerColor::Black) {
-        LoadTexture("Assets/Sprites/Knight-black.png");
-    } else {
-        LoadTexture("Assets/Sprites/Knight-white.png");
-    }
-}
+Knight::Knight(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type){};
 
 std::vector<Move> Knight::AvailableMoves(const Board& board, const std::optional<Move>& lastMove) const {
     std::vector<Move> moves;

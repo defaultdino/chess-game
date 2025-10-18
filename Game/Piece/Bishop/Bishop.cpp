@@ -3,16 +3,9 @@
 //
 
 #include "Bishop.h"
-#include <iostream>
 #include "../../Board/Board.h"
 
-Bishop::Bishop(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type) {
-    if (color == PlayerColor::Black) {
-        LoadTexture("Assets/Sprites/Bishop-black.png");
-    } else {
-        LoadTexture("Assets/Sprites/Bishop-white.png");
-    }
-}
+Bishop::Bishop(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type){};
 
 std::vector<Move> Bishop::AvailableMoves(const Board& board, const std::optional<Move>& lastMove) const {
     std::vector<Move> moves;

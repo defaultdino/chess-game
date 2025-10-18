@@ -3,16 +3,11 @@
 //
 
 #include "Rook.h"
-#include <iostream>
 #include "../../Board/Board.h"
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
-Rook::Rook(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type) {
-    if (color == PlayerColor::Black) {
-        LoadTexture("Assets/Sprites/Rook-black.png");
-    } else {
-        LoadTexture("Assets/Sprites/Rook-white.png");
-    }
-}
+Rook::Rook(sf::Vector2i position, PlayerColor color, PieceType type) : Piece(position, color, type){};
 
 std::vector<Move> Rook::AvailableMoves(const Board& board, const std::optional<Move>& lastMove) const {
     std::vector<Move> moves;

@@ -3,7 +3,6 @@
 //
 
 #include "MoveManager.h"
-#include <iostream>
 
 void MoveManager::ExecuteMove(const Move &move) {
     this->moveHistory.push_back(move);

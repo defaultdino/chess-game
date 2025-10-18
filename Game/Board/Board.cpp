@@ -3,7 +3,9 @@
 //
 
 #include "Board.h"
-#include <iostream>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "../Piece/Knight/Knight.h"
 #include "../Piece/Queen/Queen.h"
 #include "../Piece/Rook/Rook.h"
@@ -30,7 +32,7 @@ void Board::DrawAvailableMoves(sf::RenderWindow &window, const std::vector<Move>
 
         sf::Vector2f movePosition((float)(regMove.x * squareSize), (float)(regMove.y * squareSize));
         sf::CircleShape moveCircle((float)squareSize / 2 - 25);
-        moveCircle.setPosition(movePosition.x + 25, movePosition.y + 25);
+        moveCircle.setPosition({movePosition.x + 25, movePosition.y + 25});
         moveCircle.setFillColor(sf::Color(123, 97, 255, 150)); // Semi-transparent color
         window.draw(moveCircle);
     }
@@ -50,7 +52,7 @@ void Board::DrawBoard(sf::RenderWindow& window, const std::vector<Move>& availab
 
     for (int row = 0; row < 8; ++row) {
         for (int col = 0; col < 8; ++col) {
-            square.setPosition((float)row * squareSize, (float)col * squareSize);
+            square.setPosition({(float)row * squareSize, (float)col * squareSize});
             square.setFillColor(DetermineSquareColor(Position {row, col}, selectedPosition));
             window.draw(square);
         }
@@ -73,11 +75,10 @@ void Board::DrawBoard(sf::RenderWindow& window, const std::vector<Move>& availab
 }
 
 void Board::Populate() {
-
-    for (int row = 0; row < 8; ++row) {
-        board[row][1] = std::make_shared<Pawn>(sf::Vector2i{row, 1}, PlayerColor::Black, PieceType::Pawn);
-        board[row][6] = std::make_shared<Pawn>(sf::Vector2i{row, 6}, PlayerColor::White, PieceType::Pawn);
-    }
+  for (int row = 0; row < 8; ++row) {
+      board[row][1] = std::make_shared<Pawn>(sf::Vector2i{row, 1}, PlayerColor::Black, PieceType::Pawn);
+      board[row][6] = std::make_shared<Pawn>(sf::Vector2i{row, 6}, PlayerColor::White, PieceType::Pawn);
+  }
 
     // Rooks
     board[0][0] = std::make_shared<Rook>((sf::Vector2i){0, 0}, PlayerColor::Black, PieceType::Rook);

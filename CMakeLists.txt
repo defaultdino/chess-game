@@ -35,6 +35,6 @@ add_executable(chessgame main.cpp
 
 include_directories(/usr/local/include)
 
-find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
+find_package(SFML 3.0.2 COMPONENTS Graphics Audio REQUIRED)
 include_directories(${SFML_INCLUDE_DIRS})
 target_link_libraries(chessgame sfml-system sfml-window sfml-graphics sfml-audio sfml-network)

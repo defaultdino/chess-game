@@ -9,6 +9,10 @@
 #include "../Piece/Knight/Knight.h"
 #include "../Piece/Pawn/Pawn.h"
 #include "../Piece/King/King.h"
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <algorithm>
 
 const std::vector<PieceType> moveRestrictions = {
         PieceType::King,
@@ -17,11 +21,11 @@ const std::vector<PieceType> moveRestrictions = {
 };
 
 Position GameState::GetKingPosition() const {
-    return playerTurn == PlayerColor::White ? whiteKingPosition : blackKingPosition;
+    return playerColor == PlayerColor::White ? whiteKingPosition : blackKingPosition;
 }
 
 void GameState::ChangePlayerTurn() {
-    this->playerTurn = this->playerTurn == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
+    this->playerColor = this->playerColor == PlayerColor::White ? PlayerColor::Black : PlayerColor::White;
 }
 
 void GameState::UpdateBoard(sf::RenderWindow& window, const std::vector<Move>& availableMoves, const std::optional<std::shared_ptr<Piece>>& selectedPiece) {
@@ -35,7 +39,7 @@ void GameState::UpdateBoard(sf::RenderWindow& window, const std::vector<Move>& a
 bool GameState::IsKingInCheck() const {
     Position kingPosition = GetKingPosition();
 
-    int direction = (playerTurn == PlayerColor::White) ? -1 : 1;
+    int direction = (playerColor == PlayerColor::White) ? -1 : 1;
     std::vector<sf::Vector2i> pawnThreats = {
             {kingPosition.x - 1, kingPosition.y + direction},
             {kingPosition.x + 1, kingPosition.y + direction}
@@ -43,7 +47,7 @@ bool GameState::IsKingInCheck() const {
     for (const auto& move : pawnThreats) {
         if (Board::IsWithinBounds(move)) {
             auto piece = board->GetPieceAt(move);
-            if (piece && piece->GetType() == PieceType::Pawn && piece->GetColor() != playerTurn) {
+            if (piece && piece->GetType() == PieceType::Pawn && piece->GetColor() != playerColor) {
                 return true;
             }
         }
@@ -58,7 +62,7 @@ bool GameState::IsKingInCheck() const {
     for (const auto& move : knightThreats) {
         if (Board::IsWithinBounds(move)) {
             auto piece = board->GetPieceAt(move);
-            if (piece && piece->GetType() == PieceType::Knight && piece->GetColor() != playerTurn) {
+            if (piece && piece->GetType() == PieceType::Knight && piece->GetColor() != playerColor) {
                 return true;
             }
         }
@@ -74,7 +78,7 @@ bool GameState::IsKingInCheck() const {
             auto piece = board->GetPieceAt(currentPos);
             if (piece) {
                 PieceType type = piece->GetType();
-                if ((type == PieceType::Rook || type == PieceType::Bishop || type == PieceType::Queen) && piece->GetColor() != playerTurn) {
+                if ((type == PieceType::Rook || type == PieceType::Bishop || type == PieceType::Queen) && piece->GetColor() != playerColor) {
                     if (type == PieceType::Queen) return true; // Queen threat
                     if (dir.x == 0 || dir.y == 0) { // Horizontal or vertical
                         if (type == PieceType::Rook) return true; // Rook threat
@@ -98,7 +102,7 @@ bool GameState::IsCheckmate(const Move& lastMove) {
         for (int y = 0; y < 8; y++) {
             sf::Vector2i pos(x, y);
             auto piece = board->GetPieceAt(pos);
-            if (piece && piece->GetColor() == playerTurn) {
+            if (piece && piece->GetColor() == playerColor) {
                 auto moves = piece->AvailableMoves(*this->board, lastMove);
                 for (const auto& move : moves) {
                     if (this->IsLegalMove(move.moveToDirection, piece)) {
@@ -117,20 +121,20 @@ std::shared_ptr<Board> GameState::GetBoard() {
     return this->board;
 }
 
-void GameState::PromotePawn(const Position& position, PieceType type) {
+void GameState::PromotePawn(const Position& position, PieceType promotedType) {
     auto pawn = this->board->GetPieceAt(position);
-    switch (type) {
+    switch (promotedType) {
         case PieceType::Queen:
-            this->board->SetPieceAt(position, std::make_shared<Queen>(position, playerTurn, type));
+            this->board->SetPieceAt(position, std::make_shared<Queen>(position, playerColor, promotedType));
             break;
         case PieceType::Rook:
-            this->board->SetPieceAt(position, std::make_shared<Rook>(position, playerTurn, type));
+            this->board->SetPieceAt(position, std::make_shared<Rook>(position, playerColor, promotedType));
             break;
         case PieceType::Bishop:
-            this->board->SetPieceAt(position, std::make_shared<Bishop>(position, playerTurn, type));
+            this->board->SetPieceAt(position, std::make_shared<Bishop>(position, playerColor, promotedType));
             break;
         case PieceType::Knight:
-            this->board->SetPieceAt(position, std::make_shared<Knight>(position, playerTurn, type));
+            this->board->SetPieceAt(position, std::make_shared<Knight>(position, playerColor, promotedType));
             break;
         case PieceType::Pawn:
         case PieceType::King:
@@ -292,13 +296,16 @@ void GameState::InitializeBoard() {
 }
 
 PlayerColor GameState::GetPlayerTurn() {
-    return this->playerTurn;
+    return this->playerColor;
 }
 
 bool GameState::CheckForPawnPromotion(const std::shared_ptr<Piece>& piece, const Move& move) {
     auto pawn = dynamic_cast<Pawn*>(piece.get());
     if (pawn->CanPromote(move)) {
-        this->PromotePawn(move.moveToDirection, PieceType::Queen);
+        if (playerColor == PlayerColor::White) {
+          this->PromotePawn(move.moveToDirection, PieceType::Queen);
+        }
+
         return true;
     }
     return false;
