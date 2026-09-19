@@ -33,8 +33,13 @@ add_executable(chessgame main.cpp
         Game/AudioManager/AudioManager.h
 )
 
-include_directories(/usr/local/include)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SFML REQUIRED IMPORTED_TARGET
+        sfml-graphics>=3.0.2
+        sfml-audio>=3.0.2
+        sfml-window>=3.0.2
+        sfml-system>=3.0.2
+        sfml-network>=3.0.2
+)
 
-find_package(SFML 3.0.2 COMPONENTS Graphics Audio REQUIRED)
-include_directories(${SFML_INCLUDE_DIRS})
-target_link_libraries(chessgame sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+target_link_libraries(chessgame PRIVATE PkgConfig::SFML)

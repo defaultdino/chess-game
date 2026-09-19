@@ -13,6 +13,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <algorithm>
+#include <iostream>
 
 const std::vector<PieceType> moveRestrictions = {
         PieceType::King,
@@ -201,9 +202,13 @@ bool GameState::PerformMove(const Move& move) {
     return true;
 }
 
-bool GameState::PerformCastling(const Move& move, const std::shared_ptr<Piece>& selectedPiece) {
+int getMoveDistanceHorizontal(const Move &move) {
+    return std::abs(move.moveFromDirection.x - move.moveToDirection.x);
+}
+
+bool GameState::CastleUsingKing(const Move &move, const std::shared_ptr<Piece> &selectedPiece) {
     if (selectedPiece->GetType() == PieceType::King) {
-        if (std::abs(move.moveToDirection.x - move.moveFromDirection.x) == 2) {
+        if (getMoveDistanceHorizontal(move) == 2) {
             Position rookFrom;
             Position rookTo;
 
@@ -226,6 +231,40 @@ bool GameState::PerformCastling(const Move& move, const std::shared_ptr<Piece>& 
         return false;
     }
     return false;
+}
+
+bool GameState::CastleUsingRook(const Move &move, const std::shared_ptr<Piece> &selectedPiece) {
+    if (selectedPiece->GetType() == PieceType::Rook) {
+        Position kingFrom;
+        Position kingTo;
+        if (getMoveDistanceHorizontal(move) == 2) {
+            // a castle of two steps from black can only be done on short castle
+            if (selectedPiece->GetColor() == PlayerColor::Black) {
+                kingFrom = {4, 0};
+                kingTo = {6, 0};
+            } else { // otherwise this is short from whites side
+                kingFrom = {4, 7};
+                kingTo = {6, 7};
+            }
+
+        } else if (getMoveDistanceHorizontal(move) == 3) {
+            // long castle
+            return false;
+        }
+
+        MoveSelectedPieceTo(kingTo, kingFrom);
+        auto king = std::static_pointer_cast<King>(board->GetPieceAt(kingTo));
+        king->UpdateVisualPositionFromLogical();
+        if (king) {
+            king->SetHasMoved();
+        }
+        return true;
+    }
+    return false;
+}
+
+bool GameState::PerformCastling(const Move& move, const std::shared_ptr<Piece>& selectedPiece) {
+    return CastleUsingKing(move, selectedPiece) || CastleUsingRook(move, selectedPiece);
 }
 
 bool GameState::PerformPromotion(const Move& move, const std::shared_ptr<Piece>& selectedPiece) {

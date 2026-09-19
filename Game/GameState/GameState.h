@@ -74,6 +74,11 @@ public:
     bool isDragging = false;
 
 private:
+
+    bool CastleUsingRook(const Move &move, const std::shared_ptr<Piece> &selectedPiece);
+
+    bool CastleUsingKing(const Move &move, const std::shared_ptr<Piece> &selectedPiece);
+
     std::shared_ptr<Board> board;
 
     AudioManager audioManager;
